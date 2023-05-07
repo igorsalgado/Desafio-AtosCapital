@@ -101,7 +101,7 @@ namespace Atividade
             int cSaida = -1; // Saída: coluna
 
             // percorre toda a matriz (a partir da segunda linha do arquivo texto) para identificar a posição inicial e a saída
-            for (int l = 1; l < lines.Length; l++) 
+            for (int l = 1; l < lines.Length; l++)
             {
                 string[] line = lines[l].Split(' ');
                 for (int c = 0; c < line.Length; c++)
@@ -132,16 +132,58 @@ namespace Atividade
             List<string> resultado = new List<string>();
             resultado.Add("O [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
 
-            
+            // Armazena as posições visitadas em uma pilha
+            //Eu utilizei Stack<Tuple<int , int>> pois a pilha é uma estrutura de dados que segue a regra LIFO (Last In First Out), ou seja, o último elemento a entrar é o primeiro a sair.
+            //E Tuple<int, int> é uma estrutura de dados que permite armazenar dois valores inteiros em uma única variável.
+            Stack<Tuple<int, int>> posVisitada = new Stack<Tuple<int, int>>();
+            posVisitada.Push(Tuple.Create(lAtual, cAtual));
+
+
             // Percorre a matriz (labirinto) até encontrar a saída, usando as regras de prioridade e posições não visitadas, e vai armazenando o trajeto na list resultado
             bool achouSaida = lAtual == lSaida && cAtual == cSaida;
             while (!achouSaida)
             {
-                //if Pode ir para cima? Então move e guarda o movimento C na list resultado
-                //else if Pode ir para esquerda? Então move e guarda o movimento E na list resultado
-                //else if Pode ir para direita? Então move e guarda o movimento D na list resultado
-                //else if Pode ir para baixo?  Então move e guarda o movimento B na list resultado
-                //else tem que voltar para a posição anterior
+                // Se a posição acima não é parede e não foi visitada
+                if (lAtual > 0 && matriz[lAtual - 1, cAtual] != "1" && !posVisitada.Contains(Tuple.Create(lAtual - 1, cAtual)))
+                {
+                    lAtual--; // Decrementa a linha
+                    resultado.Add($"C [{lAtual + 1}, {cAtual + 1}]"); // Adiciona o movimento na list resultado
+                    posVisitada.Push(Tuple.Create(lAtual, cAtual)); // Adiciona a posição na pilha de posições visitadas
+
+                }
+                // Se a posição a esquerda não é parede e não foi visitada
+                else if (cAtual > 0 && matriz[lAtual, cAtual - 1] != "1" && !posVisitada.Contains(Tuple.Create(lAtual, cAtual - 1)))
+
+                {
+                    cAtual--;
+                    resultado.Add($"E [{lAtual + 1}, {cAtual + 1}]");
+                    posVisitada.Push(Tuple.Create(lAtual, cAtual));
+                }
+                // Se a posição a direita não é parede e não foi visitada
+                else if (cAtual < extremidadeColuna && matriz[lAtual, cAtual + 1] != "1" && !posVisitada.Contains(Tuple.Create(lAtual, cAtual + 1)))
+
+                {
+                    cAtual++; // Incrementa a coluna
+                    resultado.Add($"D [{lAtual + 1}, {cAtual + 1}]");
+                    posVisitada.Push(Tuple.Create(lAtual, cAtual));
+                }
+                // Se a posição abaixo não é parede e não foi visitada
+                else if (lAtual < extremidadeLinha && matriz[lAtual + 1, cAtual] != "1" && !posVisitada.Contains(Tuple.Create(lAtual + 1, cAtual)))
+
+                {
+                    lAtual++;
+                    resultado.Add($"B [{lAtual + 1}, {cAtual + 1}]");
+                    posVisitada.Push(Tuple.Create(lAtual, cAtual));
+
+                }
+                else
+                {
+                    // Volta para a posição anterior
+                    posVisitada.Pop();
+
+                    // Bloqueia a posição atual para não voltar nela
+                    matriz[lAtual, cAtual] = "1";
+                }
 
                 // Achou a saída?
                 achouSaida = lAtual == lSaida && cAtual == cSaida;
