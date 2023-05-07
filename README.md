@@ -7,36 +7,17 @@ O código fonte está em C# e foi desenvolvido usando a plataforma .NET Core. O 
 
 Para executar o programa, é necessário ter o .NET Core instalado no computador. Basta abrir o prompt de comando ou o terminal na pasta do projeto e digitar o comando "dotnet run". Em seguida, informe o caminho do arquivo de entrada quando solicitado.
 
-Exemplo de arquivo de entrada:
-
-5 8
-1 1 1 1 1 1 1 1
-1 1 0 1 0 1 1 1
-1 1 0 0 0 1 1 1
-X 0 0 1 0 0 0 0
-1 1 1 1 1 1 1 1
+Exemplo de arquivo de entrada :
+[Entrada](https://github.com/igorsalgado/Desafio-AtosCapital/blob/master/entrada-labirinto.txt)
 
 Onde
 - 1 indica uma parede
 - 0 indica um caminho possível de se trafegar
 - X é o ponto de partida
 
-Exemplo de arquivo de saída
+Exemplo de arquivo de saída :
+[Saída](https://github.com/igorsalgado/Desafio-AtosCapital/blob/master/saida-entrada-labirinto.txt)
 
-O [4, 1]
-D [4, 2]
-D [4, 3]
-C [3, 3]
-C [2, 3]
-B [3, 3]
-D [3, 4]
-D [3, 5]
-C [2, 5]
-B [3, 5]
-B [4, 5]
-D [4, 6]
-D [4, 7]
-D [4, 8]
 
 Onde 
  - C (Ir para cima)
